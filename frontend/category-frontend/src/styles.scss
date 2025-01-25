@@ -1,0 +1,10 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+:root {
+  --primary-yellow: #f6e05e; /* Yellow */
+  --secondary-blue: #4299e1; /* Blue */
+  --danger-red: #e53e3e; /* Red */
+  --background-dark: #1a202c; /* Dark Background */
+  --text-light: #f7fafc; /* Light Text */
+}

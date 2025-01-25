@@ -51,7 +51,7 @@ export class CategoryService {
   }
 
   // Create a new category
-  /*createCategory(category: CategoryDto): Observable<CategoryDto> {
+  createCategory(category: CategoryDto): Observable<CategoryDto> {
     return this.http.post<CategoryDto>(this.baseUrl, category).pipe(
       catchError((error: HttpErrorResponse) => this.handleError(error))
     );
@@ -69,7 +69,7 @@ export class CategoryService {
     return this.http.delete<void>(`${this.baseUrl}/${id}`).pipe(
       catchError((error: HttpErrorResponse) => this.handleError(error))
     );
-  }*/
+  }
 
   // Handle API errors
   private handleError(error: HttpErrorResponse): Observable<never> {

@@ -9,6 +9,7 @@ import {HttpParams} from '@angular/common/http';
 })
 export class CategoryListComponent implements OnInit {
   categories: CategoryDto[] = [];
+  isModalOpen = false;
   isEditMode = false;
   categoryForm: Partial<CategoryDto> = { name: '' };
 
@@ -70,7 +71,7 @@ export class CategoryListComponent implements OnInit {
   }
 
   applyFilters(): void {
-    this.currentPage = 0; // Reset to the first page when applying new filters
+    this.currentPage = 0;
     this.loadCategories();
   }
 
@@ -84,15 +85,35 @@ export class CategoryListComponent implements OnInit {
   }
 
   goToPage(page: number): void {
-    if (page >= 0 && page < Math.ceil(this.totalCategories / this.pageSize)) {
-      this.currentPage = page;
-      this.loadCategories();
+    if (page < 0 || page * this.pageSize >= this.totalCategories) {
+      return;
     }
+    this.currentPage = page;
+    this.loadCategories();
   }
 
-  onFormSubmitted(): void {
-    this.loadCategories();
-    this.resetForm();
+  openModal(category?: CategoryDto): void {
+    this.isModalOpen = true;
+    this.isEditMode = !!category;
+    this.categoryForm = category ? { ...category } : { name: '' };
+  }
+
+  closeModal(): void {
+    this.isModalOpen = false;
+    this.categoryForm = { name: '' };
+  }
+  submitForm(): void {
+    if (this.isEditMode) {
+      this.categoryService.updateCategory(this.categoryForm.id!, this.categoryForm as CategoryDto).subscribe(() => {
+        this.loadCategories();
+        this.closeModal();
+      });
+    } else {
+      this.categoryService.createCategory(this.categoryForm as CategoryDto).subscribe(() => {
+        this.loadCategories();
+        this.closeModal();
+      });
+    }
   }
 
   resetForm(): void {
@@ -101,14 +122,22 @@ export class CategoryListComponent implements OnInit {
   }
   updatePageSize(newSize: number): void {
     this.pageSize = newSize;
-    this.currentPage = 0; // Reset to the first page
+    this.currentPage = 0;
     this.loadCategories();
   }
 
   editCategory(category: CategoryDto): void {
     this.isEditMode = true;
     this.categoryForm = { ...category };
+    setTimeout(() => {
+      const formElement = document.querySelector('#category-form');
+      if (formElement) {
+        formElement.scrollIntoView({ behavior: 'smooth' });
+      }
+    }, 100);
   }
+
+
 
   deleteCategory(id: number): void {
     if (confirm('Are you sure you want to delete this category?')) {

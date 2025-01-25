@@ -9,13 +9,15 @@ import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {NavbarComponent} from './navbar/navbar.component';
 import {CategoryFormComponent} from './components/category-form/category-form.component';
 import {ViewCategoryComponent} from './components/view-category/view-category.component';
+import {ToastComponent} from './components/toast/ toast.component';
 
 @NgModule({
   declarations: [AppComponent,
     NavbarComponent,
-    CategoryFormComponent,
+      CategoryFormComponent,
     CategoryListComponent,
-    ViewCategoryComponent
+    ViewCategoryComponent,
+    ToastComponent
 
   ],
   imports: [

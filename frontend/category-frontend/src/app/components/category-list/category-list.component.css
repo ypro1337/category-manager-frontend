@@ -1,0 +1,10 @@
+.container {
+  padding: 20px;
+}
+table tr:hover {
+  background-color: var(--background-light);
+}
+button:hover {
+  transform: scale(1.05);
+  transition: transform 0.2s ease-in-out;
+}

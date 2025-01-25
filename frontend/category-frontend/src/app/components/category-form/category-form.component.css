@@ -1,0 +1,19 @@
+/* Ensure the form stays at the bottom of the page */
+div[fixed] {
+  z-index: 10; /* Keep above other content */
+  background-color: white; /* White background for the form */
+  box-shadow: 0 -1px 6px rgba(0, 0, 0, 0.1); /* Subtle shadow for separation */
+}
+
+.form-field {
+  width: 100%;
+  margin-bottom: 16px;
+}
+
+button {
+  cursor: pointer;
+}
+
+button:hover {
+  background-color: #2563eb; /* Darker blue on hover */
+}

@@ -1,0 +1,40 @@
+<div class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative mb-4" *ngIf="errorMessage">
+    <span>{{ errorMessage }}</span>
+</div>
+
+<form (ngSubmit)="submitForm()" class="space-y-4">
+    <div>
+        <label for="name" class="block text-sm font-medium text-gray-700">Name</label>
+        <input
+                id="name"
+                type="text"
+                [(ngModel)]="categoryForm.name"
+                name="name"
+                class="block w-full p-2 border border-gray-300 rounded-md"
+        />
+    </div>
+
+    <div>
+        <label for="parentId" class="block text-sm font-medium text-gray-700">Parent Category</label>
+        <select
+                id="parentId"
+                [(ngModel)]="categoryForm.parentId"
+                name="parentId"
+                class="block w-full p-2 border border-gray-300 rounded-md"
+        >
+            <option [value]="null">None</option>
+            <option *ngFor="let category of categories" [value]="category.id">
+                {{ category.name }}
+            </option>
+        </select>
+    </div>
+
+    <div class="flex justify-end">
+        <button
+                type="submit"
+                class="bg-blue-500 text-white px-4 py-2 rounded-md hover:bg-blue-600"
+        >
+            {{ isEditMode ? 'Update Category' : 'Add Category' }}
+        </button>
+    </div>
+</form>

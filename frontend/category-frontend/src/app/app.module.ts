@@ -13,9 +13,9 @@ import {ViewCategoryComponent} from './components/view-category/view-category.co
 @NgModule({
   declarations: [AppComponent,
     NavbarComponent,
-    //CategoryFormComponent,
+    CategoryFormComponent,
     CategoryListComponent,
-    //ViewCategoryComponent
+    ViewCategoryComponent
 
   ],
   imports: [
@@ -29,12 +29,3 @@ import {ViewCategoryComponent} from './components/view-category/view-category.co
 })
 export class AppModule {}
 
-
-/*  AppComponent,
-      HeaderComponent,
-      FooterComponent,
-      HomeComponent,
-    /*  NavbarComponent,
-      AjoutCategorieComponent,
-      ModifierCategorieComponent,
-      CategorieDetailsComponent*/

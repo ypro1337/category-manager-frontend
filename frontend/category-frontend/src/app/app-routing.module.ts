@@ -8,9 +8,9 @@ import {ViewCategoryComponent} from './components/view-category/view-category.co
 let routes: Routes;
 routes = [
   {path: '', component: CategoryListComponent},
-  /*{path: 'add-category', component: CategoryFormComponent}, // Add category
-  {path: 'edit-category/:id', component: CategoryFormComponent}, // Edit category with ID
-  { path: 'view-category/:id', component: ViewCategoryComponent },*/
+  {path: 'add-category', component: CategoryFormComponent},
+  {path: 'edit-category/:id', component: CategoryFormComponent},
+  { path: 'view-category/:id', component: ViewCategoryComponent },
 
 ];
 

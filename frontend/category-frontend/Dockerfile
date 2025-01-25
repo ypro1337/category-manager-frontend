@@ -1,16 +1,11 @@
-# Stage 1: Build the Angular App
-FROM node:18-alpine as build
+FROM node:alpine
 
-WORKDIR /app
-COPY package*.json ./
+WORKDIR /usr/src/app
+
+COPY . /usr/src/app
+
+RUN npm install -g @angular/cli
+
 RUN npm install
 
-COPY .. .
-# For Angular 18 (or whichever version you're using):
-RUN npm run build --prod
-
-# Stage 2: Nginx to serve the compiled Angular app
-FROM nginx:alpine
-COPY --from=build /app/dist/ /usr/share/nginx/html
-EXPOSE 80
-CMD ["nginx", "-g", "daemon off;"]
+CMD ["ng", "serve", "--host", "0.0.0.0"]

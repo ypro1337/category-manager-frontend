@@ -1,0 +1,207 @@
+<!-- Create Category Button -->
+<div class="flex justify-end mb-4">
+  <button
+    class="bg-blue-500 text-white px-4 py-2 rounded-md hover:bg-blue-600"
+    (click)="openModal()"
+  >
+    Create Category
+  </button>
+</div>
+
+<!-- Filters and Table -->
+<div class="bg-white p-6 rounded-lg shadow-lg">
+  <div class="flex flex-col space-y-6">
+    <!-- Filters Section -->
+    <div class="bg-gray-100 p-4 rounded-lg shadow">
+      <h3 class="text-xl font-semibold mb-4 text-gray-700">Filters</h3>
+      <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
+        <label>
+          Search:
+          <input
+            type="text"
+            [(ngModel)]="searchQuery"
+            placeholder="Search categories..."
+            class="bg-gray-200 text-gray-800 px-4 py-2 rounded-lg focus:ring-2 focus:ring-blue-500 transition-shadow"
+          />
+        </label>
+        <label>
+          Date After:
+          <input
+            type="date"
+            [(ngModel)]="dateAfter"
+            class="bg-gray-200 text-gray-800 px-4 py-2 rounded-lg focus:ring-2 focus:ring-blue-500 transition-shadow"
+          />
+        </label>
+        <label>
+          Date Before:
+          <input
+            type="date"
+            [(ngModel)]="dateBefore"
+            class="bg-gray-200 text-gray-800 px-4 py-2 rounded-lg focus:ring-2 focus:ring-blue-500 transition-shadow"
+          />
+        </label>
+        <label>
+          Is Root:
+          <select
+            [(ngModel)]="root"
+            class="bg-gray-200 text-gray-800 px-4 py-2 rounded-lg focus:ring-2 focus:ring-blue-500 transition-shadow"
+          >
+            <option [ngValue]="undefined">All</option>
+            <option [ngValue]="true">Root</option>
+            <option [ngValue]="false">Not Root</option>
+          </select>
+        </label>
+      </div>
+      <div class="flex justify-end space-x-4 mt-4">
+        <button
+          class="bg-yellow-400 text-white px-4 py-2 rounded-lg hover:bg-yellow-500 transition-transform"
+          (click)="applyFilters()"
+        >
+          Apply Filters
+        </button>
+        <button
+          class="bg-gray-500 text-white px-4 py-2 rounded-lg hover:bg-gray-600 transition-transform"
+          (click)="resetFilters()"
+        >
+          Reset Filters
+        </button>
+      </div>
+    </div>
+
+
+    <!-- Categories Table -->
+    <div *ngIf="isLoading" class="text-center py-6">Loading...</div>
+    <div *ngIf="!isLoading" class="overflow-x-auto">
+      <table class="table-auto w-full text-sm text-left text-gray-700">
+        <thead class="bg-gray-200">
+        <tr>
+          <th class="px-6 py-4">Name</th>
+          <th class="px-6 py-4">Created At</th>
+          <th class="px-6 py-4">Root</th>
+          <th class="px-6 py-4">Children</th>
+          <th class="px-6 py-4">Actions</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr *ngFor="let category of categories" class="hover:bg-gray-100">
+          <td class="px-6 py-4">{{ category.name }}</td>
+          <td class="px-6 py-4">{{ category.createdAt }}</td>
+          <td class="px-6 py-4">{{ category.root ? 'Yes' : 'No' }}</td>
+          <td class="px-6 py-4">{{ category.childrenIds?.length || 0 }}</td>
+          <td class="px-6 py-4 flex space-x-4">
+            <a
+              href="#"
+              class="text-blue-500 hover:text-blue-700"
+              (click)="openModal(category)"
+            >
+              Edit
+            </a>
+            <a
+              href="#"
+              class="text-red-500 hover:text-red-700"
+              (click)="deleteCategory(category.id)"
+            >
+              Delete
+            </a>
+          </td>
+        </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <!-- Pagination Controls -->
+    <div class="flex justify-between items-center mt-6">
+      <!-- Items Per Page Dropdown -->
+      <label>
+        Items per page:
+        <select
+          [(ngModel)]="pageSize"
+          (change)="updatePageSize(pageSize)"
+          class="bg-gray-200 text-gray-800 px-4 py-2 rounded-lg focus:ring-2 focus:ring-blue-500"
+        >
+          <option *ngFor="let size of [5, 10, 20, 50]" [value]="size">{{ size }}</option>
+        </select>
+      </label>
+
+      <!-- Pagination Info -->
+      <span class="text-gray-600">
+  Showing {{ totalCategories === 0 ? 0 : currentPage * pageSize + 1 }} -
+        {{
+          Math.min((currentPage + 1) * pageSize, totalCategories)
+        }} of {{ totalCategories }} categories
+</span>
+      <!-- Pagination Buttons -->
+      <div class="flex space-x-2">
+        <!-- Previous Button -->
+        <button
+          class="bg-gray-300 text-gray-700 px-4 py-2 rounded-md hover:bg-gray-400"
+          [disabled]="currentPage === 0"
+          (click)="goToPage(currentPage - 1)"
+        >
+          Previous
+        </button>
+
+        <!-- Next Button -->
+        <button
+          class="bg-gray-300 text-gray-700 px-4 py-2 rounded-md hover:bg-gray-400"
+          [disabled]="(currentPage + 1) * pageSize >= totalCategories"
+          (click)="goToPage(currentPage + 1)"
+        >
+          Next
+        </button>
+      </div>
+
+
+
+      <!-- Modal (already included) -->
+<div
+  *ngIf="isModalOpen"
+  class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50"
+>
+  <div class="bg-white p-6 rounded-lg shadow-lg max-w-lg w-full">
+    <h3 class="text-xl font-semibold mb-4">
+      {{ isEditMode ? 'Edit Category' : 'Create Category' }}
+    </h3>
+    <form (ngSubmit)="submitForm()" class="space-y-4">
+      <div>
+        <label for="name" class="block text-sm font-medium text-gray-700">Name</label>
+        <input
+          id="name"
+          type="text"
+          [(ngModel)]="categoryForm.name"
+          name="name"
+          class="block w-full p-2 border border-gray-300 rounded-md"
+        />
+      </div>
+      <div>
+        <label for="parentId" class="block text-sm font-medium text-gray-700">Parent Category</label>
+        <select
+          id="parentId"
+          [(ngModel)]="categoryForm.parentId"
+          name="parentId"
+          class="block w-full p-2 border border-gray-300 rounded-md"
+        >
+          <option [value]="null">None</option>
+          <option *ngFor="let category of categories" [value]="category.id">
+            {{ category.name }}
+          </option>
+        </select>
+      </div>
+      <div class="flex justify-end space-x-2">
+        <button
+          type="button"
+          class="bg-gray-500 text-white px-4 py-2 rounded-md hover:bg-gray-600"
+          (click)="closeModal()"
+        >
+          Cancel
+        </button>
+        <button
+          type="submit"
+          class="bg-blue-500 text-white px-4 py-2 rounded-md hover:bg-blue-600"
+        >
+          {{ isEditMode ? 'Update Category' : 'Add Category' }}
+        </button>
+      </div>
+    </form>
+  </div>
+</div>

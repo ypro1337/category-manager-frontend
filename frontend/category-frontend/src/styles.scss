@@ -1,0 +1,84 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+:root {
+  --primary-yellow: #f6e05e; /* Yellow */
+  --secondary-blue: #4299e1; /* Blue */
+  --danger-red: #e53e3e; /* Red */
+  --background-dark: #1a202c; /* Dark Background */
+  --text-light: #f7fafc; /* Light Text */
+}
+/* Import Font */
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap');
+
+/* Global Font */
+body {
+  font-family: 'Inter', sans-serif;
+  background-color: #f9fafb;
+  color: #1f2937;
+  line-height: 1.6;
+  margin: 0;
+}
+
+/* Typography */
+h1, h2, h3, h4 {
+  font-weight: 600;
+}
+
+h1 {
+  font-size: 1.875rem; /* 30px */
+}
+
+h2 {
+  font-size: 1.5rem; /* 24px */
+}
+
+h3 {
+  font-size: 1.25rem; /* 20px */
+}
+
+p, label, input, select, button {
+  font-size: 1rem; /* 16px */
+}
+
+/* Buttons */
+button {
+  font-family: 'Inter', sans-serif;
+  transition: all 0.3s ease;
+}
+
+button:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+button:active {
+  transform: translateY(0);
+  box-shadow: none;
+}
+
+/* Modals */
+.modal {
+  animation: fadeIn 0.3s ease-in-out;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(-20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Table */
+.table-auto th, .table-auto td {
+  padding: 12px;
+  border-bottom: 1px solid #e5e7eb;
+}
+
+.table-auto tbody tr:hover {
+  background-color: #f3f4f6;
+}
